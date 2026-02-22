@@ -1,20 +1,31 @@
 //grab step file
 Merge "input.step";
 
-//Tolerance - important to catch annoying small gaps
-Geometry.Tolerance = 0.01;
+//Tolerance - important to catch annoying small gaps/small steps
+//preset of 0.99 which is 990 µm for a mm-sized STEP file and 99 cm for meter-sized one
+Geometry.Tolerance = 0.99;
+
+//Various clean-up bits
+SetFactory("OpenCASCADE");
+Coherence;
+
+Geometry.OCCFixDegenerated = 1;
+Geometry.OCCFixSmallEdges = 1;
+Geometry.OCCFixSmallFaces = 1;
+Geometry.OCCSewFaces = 1;
+Geometry.OCCMakeSolids = 1;
+
+HealShapes;
 
 //mesh resolution, try to keep max/min ratio under 3
 Mesh.MeshSizeMin = 5;
 Mesh.MeshSizeMax = 10;
-
 
 //2D algorithm - recommended to use (6) for frontal, MeshAdapt (1) as fallback
 Mesh.Algorithm = 6;
 
 //3D algorithm - recommended to use (9) for rTree, maybe HXT (10) for very large meshes
 Mesh.Algorithm3D = 9;
-
 
 //split every tet into four hexes
 Mesh.SubdivisionAlgorithm = 2;
@@ -23,16 +34,6 @@ Mesh.SubdivisionAlgorithm = 2;
 Mesh.Optimize = 1;
 Mesh.OptimizeNetgen = 1;
 
-//Various clean-up bits
-SetFactory("OpenCASCADE");
-HealShapes;
-Coherence;
-Geometry.OCCFixDegenerated = 1;
-Geometry.OCCFixSmallEdges = 1;
-Geometry.OCCFixSmallFaces = 1;
-Geometry.OCCSewFace = 1;
-Geometry.OCCMakeSolids = 1;
-
 // Collect all volumes
 vols[] = Volume{:};
 Physical Volume("fluid") = {vols[]};
@@ -40,7 +41,7 @@ Physical Volume("fluid") = {vols[]};
 // Collect all surfaces
 surfs[] = Surface{:};
 
-// Manually assign 99 physical surfaces -hopefully your file has fewer
+// Manually assign 99 physical surfaces - hopefully your step file has fewer...
 Physical Surface("patch_00") = {surfs[00]};
 Physical Surface("patch_01") = {surfs[01]};
 Physical Surface("patch_02") = {surfs[02]};
