@@ -39,14 +39,14 @@ surfs[] = Surface{:};
 
 // Define surface groups based on your refinement zones
 // Replace these IDs with your actual surface IDs from the STEP file
-fine_surfaces = {12, 15, 18, 21, 24};  
+fine_surfaces = {1, 1, 1, 1, 1};  
 medium_surfaces = {35, 38, 41, 44, 47};            
 coarse_surfaces = {50, 53, 56, 59, 62};          
 
 // Define mesh sizes
-lc_fine = 0.05;
-lc_medium = 0.2;
-lc_coarse = 1.0;
+lc_fine = 3;
+lc_medium = 6;
+lc_coarse = 20;
 
 // Field no 1 of type 'Distance' for fine surfaces
 Field[1] = Distance;
@@ -72,7 +72,7 @@ Field[4].LcMax = lc_coarse;   // Transition to coarse size
 Field[4].DistMin = 1.0;
 Field[4].DistMax = 4.0;
 
-// field no 5 of min type - takes what isnt 2 or 4
+// field no 5 of min type - takes what isnt field 2 or 4
 Field[5] = Min;
 Field[5].FieldsList = {2, 4};
 
